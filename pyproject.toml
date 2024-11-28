@@ -7,6 +7,9 @@ requires-python = ">=3.11"
 dependencies = [
     "datasets>=3.1.0",
     "polars>=1.15.0",
+    "torch>=2.5.1",
+    "torch-geometric>=2.6.1",
+    "transformers>=4.46.3",
 ]
 
 [build-system]
@@ -17,13 +20,8 @@ build-backend = "hatchling.build"
 dev = ["ruff>=0.8.0"]
 
 [project.optional-dependencies]
-cli = [
-    "rich>=13.9.4",
-    "typer>=0.13.1",
-]
-jupyter = [
-    "jupyter>=1.1.1",
-]
+cli = ["rich>=13.9.4", "typer>=0.13.1"]
+jupyter = ["jupyter>=1.1.1"]
 
 [tool.ruff]
 exclude = [".mypy_cache", ".ruff_cache", ".venv", "venv", "build", "dist"]
