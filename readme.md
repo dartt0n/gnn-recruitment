@@ -14,6 +14,7 @@ git clone https://github.com/dartt0n/gnn-recruitment.git && cd gnn-recruitment
 ```shell
 uv sync
 uv sync --extra cli # if you want to use CLI
+uv sync --extra jupyter # if you want to use Jupyter
 ```
 
 ### Generate data
@@ -21,5 +22,9 @@ uv sync --extra cli # if you want to use CLI
 uv run gnnr data generate --output ./data
 ```
 
+## Format code
+```shell
+uv run ruff format .
+```
 
 ## Usage

@@ -21,6 +21,9 @@ cli = [
     "rich>=13.9.4",
     "typer>=0.13.1",
 ]
+jupyter = [
+    "jupyter>=1.1.1",
+]
 
 [tool.ruff]
 exclude = [".mypy_cache", ".ruff_cache", ".venv", "venv", "build", "dist"]
