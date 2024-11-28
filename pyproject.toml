@@ -2,7 +2,7 @@
 name = "gnnr"
 version = "0.1.0"
 description = "Add your description here"
-readme = "README.md"
+readme = "readme.md"
 requires-python = ">=3.11"
 dependencies = [
     "datasets>=3.1.0",
