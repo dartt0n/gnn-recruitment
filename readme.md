@@ -13,6 +13,7 @@ git clone https://github.com/dartt0n/gnn-recruitment.git && cd gnn-recruitment
 ### Create Python environment
 ```shell
 uv sync
+uv sync --extra cli # if you want to use CLI
 ```
 
 ### Generate data
