@@ -17,7 +17,7 @@ uv sync
 
 ### Generate data
 ```shell
-uv run gnnr datagen
+uv run gnnr data generate --output ./data
 ```
 
 
