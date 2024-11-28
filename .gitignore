@@ -1,4 +1,6 @@
 data
+**/wandb
+**/checkpoint
 
 # editor configs
 .zed
