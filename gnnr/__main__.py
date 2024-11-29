@@ -15,19 +15,24 @@ app.add_typer(data_cmd, name="data")
 def data_generate(
     output: Annotated[Path, t.Option(help="The path to directory where to store generated dataset files.")] = Path("output"),
     model: Annotated[str, t.Option(help="The model to use for embeddings.")] = "sentence-transformers/all-MiniLM-L12-v2",
+    synthetic: Annotated[bool, t.Option(help="Whether to generate synthetic dataset.")] = False,
 ):
     console = Console()
 
     output.mkdir(parents=True, exist_ok=True)
+    generated_files = []
 
     with console.status("generating dataset part from Stereotypes in LLMs..."):
         dataset_generation.from_HRSLLM(output / "_part00")
+        generated_files.append(output / "_part00")
 
-    with console.status("generating syntetic dataset part..."):
-        dataset_generation.synthetic(model, output / "_part01")
+    if synthetic:
+        with console.status("generating syntetic dataset part..."):
+            dataset_generation.synthetic(model, output / "_part01")
+            generated_files.append(output / "_part01")
 
     with console.status("merging dataset parts..."):
-        dataset_generation.merge_jsons([output / "_part00", output / "_part01"], output / "dataset")
+        dataset_generation.merge_jsons(generated_files, output / "dataset")
 
 
 @data_cmd.command(name="synthetic")
