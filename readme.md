@@ -24,6 +24,14 @@ uv sync --extra jupyter # if you want to use Jupyter
 ```shell
 uv run gnnr data generate --output ./data
 ```
+### Synthetic data
+```shell
+uv run gnnr data synthetic \
+    --candidates-data ./data/candidates.csv \
+    --vacancies-data ./data/vacancies.csv \
+    --model sentence-transformers/all-MiniLM-L12-v2 \
+    --output ./data
+```
 
 ## Format code
 ```shell

@@ -14,25 +14,29 @@ app.add_typer(data_cmd, name="data")
 @data_cmd.command(name="generate")
 def data_generate(
     output: Annotated[Path, t.Option(help="The path to directory where to store generated dataset files.")] = Path("output"),
+    model: Annotated[str, t.Option(help="The model to use for embeddings.")] = "sentence-transformers/all-MiniLM-L12-v2",
 ):
     console = Console()
 
     output.mkdir(parents=True, exist_ok=True)
 
     with console.status("generating dataset part from Stereotypes in LLMs..."):
-        dataset_generation.from_HRSLLM(output / "_dataset_00.json")
+        dataset_generation.from_HRSLLM(output / "_part00")
+
+    with console.status("generating syntetic dataset part..."):
+        dataset_generation.synthetic(model, output / "_part01")
+
+    with console.status("merging dataset parts..."):
+        dataset_generation.merge_jsons([output / "_part00", output / "_part01"], output / "dataset")
 
 
 @data_cmd.command(name="synthetic")
 def data_synthetic(
-    candidates_data: Annotated[Path, t.Option(help="The path to csv file with CVs.")] = Path("input.csv"),
-    vacancies_data: Annotated[Path, t.Option(help="The path to csv file with job descriptions.")] = Path("input.csv"),
+    model: Annotated[str, t.Option(help="The model to use for embeddings.")] = "sentence-transformers/all-MiniLM-L12-v2",
     output: Annotated[Path, t.Option(help="The path to directory where to store generated dataset files.")] = Path("output"),
-    model: Annotated[str, t.Option(help="The model to use for generating synthetic data.")] = "qwen2.5:3b",
 ):
     output.mkdir(parents=True, exist_ok=True)
-
-    dataset_generation.synthetic(candidates_data, vacancies_data, output, model)
+    dataset_generation.synthetic(model, output / "_dataset_01.json")
 
 
 if __name__ == "__main__":
