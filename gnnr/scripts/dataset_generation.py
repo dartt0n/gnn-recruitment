@@ -52,6 +52,7 @@ def synthetic(
                     "content": f"Candidate CV: {candidate_cv}\nJob description: {job_description}",
                 },
             ],
+            options={"temperature": 0.2, "num_ctx": 8192},
         )
 
         return re.sub(r"\D", "", response.message.content) == "1"
