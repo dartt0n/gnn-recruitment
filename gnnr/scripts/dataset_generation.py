@@ -78,7 +78,7 @@ def synthetic(
 
     for candidate, vacancy in product(candidate_df["candidate_id"].to_list(), vacancy_df["job_id"].to_list()):
         cosine_sim = cosine(candidate_features[candidate], vacancy_features[vacancy])
-        decision = cosine_sim > 0.8
+        decision = cosine_sim > 0.95
 
         data.append({"candidate_id": candidate, "job_id": vacancy, "decision": int(decision)})
 

@@ -63,10 +63,10 @@ def data_export(
                 pl.col("job_id").alias("target"),
                 pl.col("decision").alias("weight"),
             )
+            .filter(pl.col("weight").eq(1))
             .to_pandas(),
             "source",
             "target",
-            edge_attr=["weight"],
         )
 
     if format == "edgelist":
