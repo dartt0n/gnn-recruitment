@@ -17,6 +17,7 @@ app.add_typer(data_cmd, name="data")
 def data_generate(
     output: Annotated[Path, t.Option(help="The path to directory where to store generated dataset files.")] = Path("output"),
     model: Annotated[str, t.Option(help="The model to use for embeddings.")] = "sentence-transformers/all-MiniLM-L12-v2",
+    hrsllm: Annotated[bool, t.Option(help="Whether to generate dataset from HRSLLM.")] = True,
     synthetic: Annotated[bool, t.Option(help="Whether to generate synthetic dataset.")] = False,
 ):
     console = Console()
@@ -24,9 +25,10 @@ def data_generate(
     output.mkdir(parents=True, exist_ok=True)
     generated_files = []
 
-    with console.status("generating dataset part from Stereotypes in LLMs..."):
-        dataset_generation.from_HRSLLM(output / "_part00")
-        generated_files.append(output / "_part00")
+    if hrsllm:
+        with console.status("generating dataset part from Stereotypes in LLMs..."):
+            dataset_generation.from_HRSLLM(output / "_part00")
+            generated_files.append(output / "_part00")
 
     if synthetic:
         with console.status("generating syntetic dataset part..."):
@@ -71,7 +73,13 @@ def data_export(
 
     if format == "edgelist":
         with console.status("Writing edgelist..."):
-            nx.write_edgelist(G, output)
+            pl.read_json(input).select(
+                pl.col("candidate_id").alias("source"),
+                pl.lit("candidate").alias("source_type"),
+                pl.col("job_id").alias("target"),
+                pl.lit("vacancy").alias("target_type"),
+                pl.col("decision").alias("weight"),
+            ).filter(pl.col("weight").eq(1)).write_csv(output)
     elif format == "graphml":
         with console.status("Writing graphml..."):
             nx.write_graphml(G, output)
