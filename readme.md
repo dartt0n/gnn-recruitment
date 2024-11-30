@@ -72,8 +72,8 @@ uv run gnnr data generate --output ./data --no-synthetic
 uv run gnnr data generate --output ./data --synthetic
 
 # specify model to use for embeddings
-uv run gnnr data generate --output ./data \\
-    --synthetic \\
+uv run gnnr data generate --output ./data \
+    --synthetic \
     --model sentence-transformers/all-MiniLM-L12-v2
 
 # only synthetic data
@@ -82,6 +82,16 @@ uv run gnnr data synthetic \
     --output ./data
 ```
 
+## Export dataset
+
+Export dataset for different visualization tools
+```shell
+uv run gnnr data export \
+    [edgelist|graphml|gexf|dot] \
+    --input data/dataset/edges.json \
+    --output ~/Downloads/edgelist.csv
+```
+ 
 ## Format code
 ```shell
 uv run ruff format .
